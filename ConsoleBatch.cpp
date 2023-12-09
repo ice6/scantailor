@@ -138,18 +138,18 @@ ConsoleBatch::createCompositeTask(
 		debug = false;
 	}
 
-	if (last_filter_idx >= m_ptrStages->outputFilterIdx()) {
-		output_task = m_ptrStages->outputFilter()->createTask(
-			page.id(), m_ptrThumbnailCache, m_outFileNameGen, batch, debug
-		);
-		debug = false;
-	}
-	if (last_filter_idx >= m_ptrStages->pageLayoutFilterIdx()) {
-		page_layout_task = m_ptrStages->pageLayoutFilter()->createTask(
-			page.id(), output_task, batch, debug
-		);
-		debug = false;
-	}
+//	if (last_filter_idx >= m_ptrStages->outputFilterIdx()) {
+//		output_task = m_ptrStages->outputFilter()->createTask(
+//			page.id(), m_ptrThumbnailCache, m_outFileNameGen, batch, debug
+//		);
+//		debug = false;
+//	}
+//	if (last_filter_idx >= m_ptrStages->pageLayoutFilterIdx()) {
+//		page_layout_task = m_ptrStages->pageLayoutFilter()->createTask(
+//			page.id(), output_task, batch, debug
+//		);
+//		debug = false;
+//	}
 	if (last_filter_idx >= m_ptrStages->selectContentFilterIdx()) {
 		select_content_task = m_ptrStages->selectContentFilter()->createTask(
 			page.id(), page_layout_task, batch, debug
