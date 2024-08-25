@@ -36,6 +36,7 @@
 #include <QObject>
 #include <QTransform>
 #include <QDebug>
+#include <iostream>
 
 namespace select_content
 {
@@ -127,6 +128,8 @@ Task::process(TaskStatus const& status, FilterData const& data)
 				status, data, m_ptrDbg.get()
 			)
 		);
+		std::cout << "{\"x\":" << content_rect.x() << ",\"y\":" << content_rect.y() <<
+		",\"w\":" << content_rect.width() << ",\"h\":" << content_rect.height() << "}\n";
 		ui_data.setContentRect(content_rect);
 		ui_data.setDependencies(deps);
 		ui_data.setMode(MODE_AUTO);
