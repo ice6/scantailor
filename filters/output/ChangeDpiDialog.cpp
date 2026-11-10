@@ -17,7 +17,6 @@
 */
 
 #include "ChangeDpiDialog.h"
-#include "ChangeDpiDialog.h.moc"
 #include "PageSelectionAccessor.h"
 #include "Dpi.h"
 #include <QButtonGroup>
@@ -175,3 +174,5 @@ ChangeDpiDialog::onSubmit()
 }
 
 } // namespace output
+
+#include "ChangeDpiDialog.h.moc"

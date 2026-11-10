@@ -17,7 +17,6 @@
 */
 
 #include "ImageView.h"
-#include "ImageView.h.moc"
 #include "ImageTransformation.h"
 #include "ImagePresentation.h"
 #include "InteractionState.h"
@@ -304,3 +303,5 @@ ImageView::getRotationHandles(QRectF const& arc_square) const
 }
 
 } // namespace deskew
+
+#include "ImageView.h.moc"

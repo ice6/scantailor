@@ -17,7 +17,6 @@
 */
 
 #include "OptionsWidget.h"
-#include "OptionsWidget.h.moc"
 #include "ApplyDialog.h"
 #include "Settings.h"
 #include "Params.h"
@@ -208,3 +207,5 @@ OptionsWidget::UiData::mode() const
 }
 
 } // namespace select_content
+
+#include "OptionsWidget.h.moc"

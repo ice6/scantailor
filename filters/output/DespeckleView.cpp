@@ -17,7 +17,6 @@
 */
 
 #include "DespeckleView.h"
-#include "DespeckleView.h.moc"
 #include "DespeckleVisualization.h"
 #include "Despeckle.h"
 #include "AbstractCommand.h"
@@ -344,3 +343,5 @@ DespeckleView::TaskCancelHandle::throwIfCancelled() const
 }
 
 } // namespace output
+
+#include "DespeckleView.h.moc"

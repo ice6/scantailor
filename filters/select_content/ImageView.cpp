@@ -17,7 +17,6 @@
 */
 
 #include "ImageView.h"
-#include "ImageView.h.moc"
 #include "ImageTransformation.h"
 #include "ImagePresentation.h"
 #include <QMouseEvent>
@@ -284,3 +283,5 @@ ImageView::forceInsideImage(QRectF& widget_rect, int const edge_mask) const
 }
 
 } // namespace select_content
+
+#include "ImageView.h.moc"

@@ -16,7 +16,6 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 #include "WorkerThread.h"
-#include "WorkerThread.h.moc"
 #include "ThreadPriority.h"
 #include "OutOfMemoryHandler.h"
 #include <QCoreApplication>
@@ -320,3 +319,4 @@ WorkerThread::TaskResultEvent::TaskResultEvent(
 {
 }
 
+#include "WorkerThread.h.moc"

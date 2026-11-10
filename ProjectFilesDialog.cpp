@@ -17,7 +17,6 @@
 */
 
 #include "ProjectFilesDialog.h"
-#include "ProjectFilesDialog.h.moc"
 #include "NonCopyable.h"
 #include "ImageMetadata.h"
 #include "ImageMetadataLoader.h"
@@ -854,3 +853,5 @@ ProjectFilesDialog::ItemVisualOrdering::operator()(
 	
 	return SmartFilenameOrdering()(lhs.fileInfo(), rhs.fileInfo());
 }
+
+#include "ProjectFilesDialog.h.moc"

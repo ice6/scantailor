@@ -17,7 +17,6 @@
 */
 
 #include "ErrorWidget.h"
-#include "ErrorWidget.h.moc"
 #include <QStyle>
 #include <QIcon>
 
@@ -31,3 +30,5 @@ ErrorWidget::ErrorWidget(QString const& text, Qt::TextFormat fmt)
 
 	connect(textLabel, SIGNAL(linkActivated(QString const&)), SLOT(linkActivated(QString const&)));
 }
+
+#include "ErrorWidget.h.moc"

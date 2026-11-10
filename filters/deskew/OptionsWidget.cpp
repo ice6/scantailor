@@ -17,7 +17,6 @@
 */
 
 #include "OptionsWidget.h"
-#include "OptionsWidget.h.moc"
 #include "Settings.h"
 #include "ScopedIncDec.h"
 #include <QString>
@@ -293,3 +292,5 @@ OptionsWidget::UiData::mode() const
 }
 
 } // namespace deskew
+
+#include "OptionsWidget.h.moc"

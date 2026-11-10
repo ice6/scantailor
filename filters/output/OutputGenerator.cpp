@@ -17,6 +17,7 @@
 */
 
 #include "OutputGenerator.h"
+#include <QPainterPath>
 #include "ImageTransformation.h"
 #include "FilterData.h"
 #include "TaskStatus.h"

@@ -17,7 +17,6 @@
 */
 
 #include "ImageViewBase.h"
-#include "ImageViewBase.h.moc"
 #include "NonCopyable.h"
 #include "ImagePresentation.h"
 #include "OpenGLSupport.h"
@@ -1226,3 +1225,5 @@ ImageViewBase::TransformChangeWatcher::~TransformChangeWatcher()
 		}
 	}
 }
+
+#include "ImageViewBase.h.moc"

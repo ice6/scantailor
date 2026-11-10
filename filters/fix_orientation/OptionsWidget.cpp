@@ -17,7 +17,6 @@
 */
 
 #include "OptionsWidget.h"
-#include "OptionsWidget.h.moc"
 #include "Filter.h"
 #include "ApplyDialog.h"
 #include "Settings.h"
@@ -169,3 +168,5 @@ OptionsWidget::setRotationPixmap()
 
 
 } // namespace fix_orientation
+
+#include "OptionsWidget.h.moc"

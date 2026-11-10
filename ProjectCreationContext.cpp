@@ -16,7 +16,7 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#include "ProjectCreationContext.h.moc"
+#include "ProjectCreationContext.h"
 #include "ProjectFilesDialog.h"
 #include "FixDpiDialog.h"
 #include "ImageFileInfo.h"
@@ -139,4 +139,4 @@ ProjectCreationContext::showFixDpiDialog()
 	m_ptrFixDpiDialog->show();
 }
 
-
+#include "ProjectCreationContext.h.moc"

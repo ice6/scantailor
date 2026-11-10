@@ -17,7 +17,6 @@
 */
 
 #include "Application.h"
-#include "Application.h.moc"
 #include "OutOfMemoryHandler.h"
 #include <new>
 
@@ -36,3 +35,5 @@ Application::notify(QObject* receiver, QEvent* e)
         return false;
     }
 }
+
+#include "Application.h.moc"

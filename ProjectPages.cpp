@@ -17,7 +17,6 @@
 */
 
 #include "ProjectPages.h"
-#include "ProjectPages.h.moc"
 #include "ImageFileInfo.h"
 #include "ImageMetadata.h"
 #include "ImageInfo.h"
@@ -710,3 +709,5 @@ ProjectPages::ImageDesc::logicalPageToSubPage(
 		return sub_pages_in_order[logical_page];
 	}
 }
+
+#include "ProjectPages.h.moc"

@@ -25,7 +25,7 @@
 #include "ImageMetadata.h"
 #include "AbstractFilter.h"
 #include "FileNameDisambiguator.h"
-#include "compat/boost_multi_index_foreach_fix.h"
+//#include "compat/boost_multi_index_foreach_fix.h" // boost>=1.90 has this fix built-in
 #include <QtXml>
 #include <QFile>
 #include <QTextStream>

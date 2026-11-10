@@ -17,7 +17,6 @@
 */
 
 #include "RelinkingDialog.h"
-#include "RelinkingDialog.h.moc"
 #include "RelinkingSortingModel.h"
 #include <QDir>
 #include <QFileDialog>
@@ -156,3 +155,5 @@ RelinkingDialog::commitChanges()
 	m_model.commitChanges();
 	accept();
 }
+
+#include "RelinkingDialog.h.moc"

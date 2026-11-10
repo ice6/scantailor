@@ -16,7 +16,7 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#include "TabbedImageView.h.moc"
+#include "TabbedImageView.h"
 
 namespace output
 {
@@ -62,3 +62,4 @@ TabbedImageView::tabChangedSlot(int const idx)
 
 } // namespace output
 
+#include "TabbedImageView.h.moc"

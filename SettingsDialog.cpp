@@ -17,7 +17,6 @@
 */
 
 #include "SettingsDialog.h"
-#include "SettingsDialog.h.moc"
 #include "OpenGLSupport.h"
 #include "config.h"
 #include <QSettings>
@@ -61,3 +60,5 @@ SettingsDialog::commitChanges()
 	settings.setValue("settings/use_3d_acceleration", ui.use3DAcceleration->isChecked());
 #endif
 }
+
+#include "SettingsDialog.h.moc"

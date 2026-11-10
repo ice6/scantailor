@@ -17,7 +17,6 @@
 */
 
 #include "FillZoneEditor.h"
-#include "FillZoneEditor.h.moc"
 #include "ZoneContextMenuInteraction.h"
 #include "ZoneContextMenuItem.h"
 #include "ColorPickupInteraction.h"
@@ -238,3 +237,5 @@ FillZoneEditor::MenuCustomizer::operator()(
 }
 
 } // namespace output
+
+#include "FillZoneEditor.h.moc"

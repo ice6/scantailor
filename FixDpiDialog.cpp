@@ -17,7 +17,6 @@
 */
 
 #include "FixDpiDialog.h"
-#include "FixDpiDialog.h.moc"
 #include <QAbstractItemModel>
 #include <QSortFilterProxyModel>
 #include <QModelIndex>
@@ -886,3 +885,5 @@ FixDpiDialog::FilterModel::data(QModelIndex const& index, int role) const
 	}
 	return QSortFilterProxyModel::data(index, role);
 }
+
+#include "FixDpiDialog.h.moc"

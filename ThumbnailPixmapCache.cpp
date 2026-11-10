@@ -706,7 +706,7 @@ ThumbnailPixmapCache::Impl::getThumbFilePath(
 		).toHex()
 	);
 	QString const orig_path_hash_str(
-		QString::fromAscii(orig_path_hash.data(), orig_path_hash.size())
+		QString::fromLatin1(orig_path_hash.data(), orig_path_hash.size())
 	);
 	
 	QFileInfo const orig_img_path(image_id.filePath());
@@ -717,7 +717,7 @@ ThumbnailPixmapCache::Impl::getThumbFilePath(
 	thumb_file_path += QString::number(image_id.zeroBasedPage());
 	thumb_file_path += QChar('_');
 	thumb_file_path += orig_path_hash_str;
-	thumb_file_path += QString::fromAscii(".png");
+	thumb_file_path += QString::fromLatin1(".png");
 	
 	return thumb_file_path;
 }

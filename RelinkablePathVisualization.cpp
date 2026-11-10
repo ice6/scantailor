@@ -17,7 +17,6 @@
 */
 
 #include "RelinkablePathVisualization.h"
-#include "RelinkablePathVisualization.h.moc"
 #include "RelinkablePath.h"
 #include "QtSignalForwarder.h"
 #include <QHBoxLayout>
@@ -316,3 +315,5 @@ RelinkablePathVisualization::ComponentButton::paintEvent(QPaintEvent* evt)
 	QStylePainter painter(this);
 	painter.drawControl(QStyle::CE_PushButton, option);
 }
+
+#include "RelinkablePathVisualization.h.moc"

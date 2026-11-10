@@ -17,7 +17,6 @@
 */
 
 #include "MainWindow.h"
-#include "MainWindow.h.moc"
 #include "NewOpenProjectPanel.h"
 #include "RecentProjects.h"
 #include "WorkerThread.h"
@@ -1742,7 +1741,7 @@ MainWindow::closeProjectInteractive()
 	QFileInfo const project_file(m_projectFile);
 	QFileInfo const backup_file(
 		project_file.absoluteDir(),
-		QString::fromAscii("Backup.")+project_file.fileName()
+		QString::fromLatin1("Backup.")+project_file.fileName()
 	);
 	QString const backup_file_path(backup_file.absoluteFilePath());
 	
@@ -2162,3 +2161,5 @@ MainWindow::newPageSelectionAccessor()
 	IntrusivePtr<PageSelectionProvider const> provider(new PageSelectionProviderImpl(this));
 	return PageSelectionAccessor(provider);
 }
+
+#include "MainWindow.h.moc"

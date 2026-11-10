@@ -17,6 +17,7 @@
 */
 
 #include "Thumbnail.h"
+#include <QPainterPath>
 #include "Utils.h"
 #include "imageproc/PolygonUtils.h"
 #include <QPolygonF>

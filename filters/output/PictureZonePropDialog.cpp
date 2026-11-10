@@ -17,7 +17,6 @@
 */
 
 #include "PictureZonePropDialog.h"
-#include "PictureZonePropDialog.h.moc"
 #include "Property.h"
 #include "PictureLayerProperty.h"
 
@@ -70,3 +69,5 @@ PictureZonePropDialog::itemToggled(bool selected)
 }
 
 } // namespace output
+
+#include "PictureZonePropDialog.h.moc"

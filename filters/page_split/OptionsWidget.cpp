@@ -17,7 +17,7 @@
 */
 
 #include "OptionsWidget.h"
-#include "OptionsWidget.h.moc"
+#include <QButtonGroup>
 #include "Filter.h"
 #include "SplitModeDialog.h"
 #include "Settings.h"
@@ -397,3 +397,5 @@ OptionsWidget::UiData::setLayoutTypeAutoDetected(bool const val)
 }
 
 } // namespace page_split
+
+#include "OptionsWidget.h.moc"

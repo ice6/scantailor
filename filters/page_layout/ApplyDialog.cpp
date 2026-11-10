@@ -17,7 +17,6 @@
 */
 
 #include "ApplyDialog.h"
-#include "ApplyDialog.h.moc"
 #include "PageSelectionAccessor.h"
 #include <QButtonGroup>
 #include <assert.h>
@@ -88,3 +87,5 @@ ApplyDialog::onSubmit()
 }
 
 } // namespace page_layout
+
+#include "ApplyDialog.h.moc"

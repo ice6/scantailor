@@ -17,7 +17,6 @@
 */
 
 #include "ImageView.h"
-#include "ImageView.h.moc"
 #include "ImagePresentation.h"
 #include "OutputMargins.h"
 
@@ -42,3 +41,5 @@ ImageView::~ImageView()
 }
 
 } // namespace output
+
+#include "ImageView.h.moc"

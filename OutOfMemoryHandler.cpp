@@ -17,7 +17,6 @@
 */
 
 #include "OutOfMemoryHandler.h"
-#include "OutOfMemoryHandler.h.moc"
 #include <QMutexLocker>
 #include <QMetaObject>
 #include <Qt>
@@ -69,3 +68,5 @@ OutOfMemoryHandler::hadOutOfMemorySituation() const
 	QMutexLocker const locker(&m_mutex);
 	return m_hadOOM;
 }
+
+#include "OutOfMemoryHandler.h.moc"

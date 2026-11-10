@@ -17,7 +17,6 @@
 */
 
 #include "SystemLoadWidget.h"
-#include "SystemLoadWidget.h.moc"
 #include "ThreadPriority.h"
 #include <QToolTip>
 
@@ -102,3 +101,5 @@ SystemLoadWidget::tooltipText(int prio)
 		return QString();
 	}
 }
+
+#include "SystemLoadWidget.h.moc"

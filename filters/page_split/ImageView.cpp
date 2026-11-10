@@ -17,7 +17,6 @@
 */
 
 #include "ImageView.h"
-#include "ImageView.h.moc"
 #include "ImageTransformation.h"
 #include "ImagePresentation.h"
 #include "Proximity.h"
@@ -408,3 +407,5 @@ ImageView::unremoveRightPage()
 }
 
 } // namespace page_split
+
+#include "ImageView.h.moc"

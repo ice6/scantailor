@@ -17,7 +17,6 @@
 */
 
 #include "OutOfMemoryDialog.h"
-#include "OutOfMemoryDialog.h.moc"
 #include "ProjectWriter.h"
 #include "RecentProjects.h"
 #include <QFileDialog>
@@ -134,3 +133,5 @@ OutOfMemoryDialog::showSaveSuccessScreen()
 {
 	ui.topLevelStack->setCurrentWidget(ui.saveSuccessPage);
 }
+
+#include "OutOfMemoryDialog.h.moc"

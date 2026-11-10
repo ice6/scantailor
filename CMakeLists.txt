@@ -19,6 +19,7 @@ SET(
 )
 
 PROJECT("Scan Tailor")
+set(ST_SOURCE_ROOT "${CMAKE_CURRENT_SOURCE_DIR}")
 
 # This forces Visual Studio 2008 SP1 to actually link to the versions of the
 # libraries it ships with!  It's harmless on other platforms.
@@ -66,7 +67,7 @@ ENDIF()
 
 # This has to go quite early on, as otherwise we risk picking
 # up an identically named header from a system include path.
-INCLUDE_DIRECTORIES(. foundation math interaction zones)
+INCLUDE_DIRECTORIES(. foundation math interaction zones "${CMAKE_CURRENT_BINARY_DIR}/stgen_moc")
 
 INCLUDE(CheckIncludeFile)
 INCLUDE(CheckIncludeFileCXX)
@@ -119,7 +120,120 @@ IF(WIN32)
 	ENDIF()
 ENDIF()
 
-INCLUDE(FindQt4)
+FIND_PACKAGE(Qt5 COMPONENTS Core Gui Widgets Xml Concurrent OpenGL Test Network PrintSupport Svg QUIET)
+IF(Qt5_FOUND)
+	SET(QT4_FOUND TRUE)
+	SET(QT_VERSION_MAJOR 5)
+	SET(QT_QMAKE_EXECUTABLE "/opt/homebrew/opt/qt@5/bin/qmake")
+	GET_FILENAME_COMPONENT(QT_BIN_DIR "${QT_QMAKE_EXECUTABLE}" PATH)
+	SET(QT_INCLUDE_DIR "/opt/homebrew/opt/qt@5/lib/QtCore.framework/Headers")
+	MACRO(QT4_WRAP_UI outfiles)
+		FIND_PROGRAM(UIC_EXECUTABLE uic HINTS "${QT_BIN_DIR}")
+		SET(${outfiles})
+		FOREACH(it ${ARGN})
+			GET_FILENAME_COMPONENT(basewd ${it} NAME_WE)
+			SET(gf "${CMAKE_CURRENT_BINARY_DIR}/ui_${basewd}.h")
+			IF(IS_ABSOLUTE "${it}")
+				SET(src "${it}")
+			ELSE()
+				SET(src "${CMAKE_CURRENT_SOURCE_DIR}/${it}")
+			ENDIF()
+			ADD_CUSTOM_COMMAND(OUTPUT ${gf} COMMAND ${UIC_EXECUTABLE} ARGS "-o" "${gf}" "${src}" DEPENDS "${src}")
+			LIST(APPEND ${outfiles} ${gf})
+		ENDFOREACH()
+	ENDMACRO()
+	# AUTOMOC replaced by QT4_AUTOMOC macro above
+	SET(CMAKE_INCLUDE_CURRENT_DIR ON)
+	SET(CMAKE_CXX_STANDARD 11)
+	SET(CMAKE_CXX_STANDARD_REQUIRED ON)
+	LIST(APPEND CMAKE_PREFIX_PATH "/opt/homebrew/opt/qt@5")
+	SET(QT_QTGUI_LIBRARY "-F/opt/homebrew/opt/qt@5/lib -framework QtWidgets -framework QtGui -framework QtCore -framework QtPrintSupport")
+	SET(QT_QTXML_LIBRARY "-F/opt/homebrew/opt/qt@5/lib -framework QtXml")
+	SET(QT_QTCORE_LIBRARY "")
+	SET(QT_QTOPENGL_LIBRARY "-F/opt/homebrew/opt/qt@5/lib -framework QtOpenGL")
+	MACRO(QT4_ADD_RESOURCES outfiles)
+		FIND_PROGRAM(RCC_EXECUTABLE rcc HINTS "${QT_BIN_DIR}")
+		SET(${outfiles})
+		FOREACH(it ${ARGN})
+			GET_FILENAME_COMPONENT(basewd ${it} NAME_WE)
+			SET(gf "${CMAKE_CURRENT_BINARY_DIR}/qrc_${basewd}.cpp")
+			IF(IS_ABSOLUTE "${it}")
+				SET(src "${it}")
+			ELSE()
+				SET(src "${CMAKE_CURRENT_SOURCE_DIR}/${it}")
+			ENDIF()
+			ADD_CUSTOM_COMMAND(OUTPUT ${gf} COMMAND ${RCC_EXECUTABLE} ARGS "-name" "${basewd}" "-o" "${gf}" "${src}" DEPENDS "${src}")
+			LIST(APPEND ${outfiles} ${gf})
+		ENDFOREACH()
+	ENDMACRO()
+	FIND_PROGRAM(MOC_EXECUTABLE moc HINTS "${QT_BIN_DIR}")
+	SET(ST_MOC_SEQ 0)
+	SET(ST_MOC_ALL_TARGETS "")
+	# Qt4-era sources include "<Base>.h.moc" at the bottom of the .cpp.
+	# Generate those with moc directly (AUTOMOC can't emit the .h.moc name).
+	# Qt4-era .cpp files end with #include "<Base>.h.moc": moc output for the
+	# HEADER (not the .cpp).  Generate those at configure time into one shared dir.
+	# Headers rarely change in this frozen fork, so configure-time generation is fine.
+	# Qt4-era .cpp files end with #include "<Base>.h.moc": moc output for the
+	# HEADER (not the .cpp).  Generate at configure time into a PER-DIRECTORY
+	# subdir of .gen_moc (basename collisions across filter dirs are real:
+	# ImageView/OptionsWidget exist in all six).  All per-dir subdirs go on the
+	# include path below; CMake resolves each .cpp against its own dir first is
+	# NOT guaranteed, so instead QT4_AUTOMOC also records outputs and we rely on
+	# per-dir subdir + per-file GENERATED property being unnecessary at configure time.
+	# Qt4-era .cpp files end with #include "<Base>.h.moc": moc output for the
+	# HEADER (not the .cpp).  Generate at configure time into the CURRENT binary
+	# dir's stgen_moc/ -- every subdir CMakeLists already has
+	# INCLUDE_DIRECTORIES(BEFORE "${CMAKE_CURRENT_BINARY_DIR}") at its top, and
+	# the top-level project does too, so no extra include-path wiring is needed.
+	# Per-directory output also avoids basename collisions (ImageView.h exists
+	# in all six filter dirs with different classes).
+	MACRO(QT4_AUTOMOC)
+		SET(st_q4moc_dir "${CMAKE_CURRENT_BINARY_DIR}/stgen_moc")
+		FILE(MAKE_DIRECTORY "${st_q4moc_dir}")
+		FOREACH(st_m_src ${ARGN})
+			IF(NOT IS_ABSOLUTE "${st_m_src}")
+				SET(st_m_abs "${CMAKE_CURRENT_SOURCE_DIR}/${st_m_src}")
+			ELSE()
+				SET(st_m_abs "${st_m_src}")
+			ENDIF()
+			GET_FILENAME_COMPONENT(st_m_base "${st_m_abs}" NAME_WE)
+			SET(st_hdr "${st_m_abs}")
+			STRING(REGEX REPLACE "\\.cpp$" ".h" st_hdr "${st_m_abs}")
+			IF(EXISTS "${st_hdr}")
+				FILE(READ "${st_hdr}" st_hdr_contents)
+				STRING(FIND "${st_hdr_contents}" "Q_OBJECT" st_qpos)
+				IF(NOT st_qpos EQUAL -1)
+					SET(st_moc_out "${st_q4moc_dir}/${st_m_base}.h.moc")
+					execute_process(COMMAND ${MOC_EXECUTABLE} "-I${CMAKE_CURRENT_SOURCE_DIR}" "${st_hdr}" -o "${st_moc_out}" RESULT_VARIABLE st_moc_rc OUTPUT_QUIET ERROR_QUIET)
+					IF(NOT st_moc_rc EQUAL 0)
+						message(WARNING "moc failed: ${st_hdr}")
+					ENDIF()
+				ENDIF()
+			ENDIF()
+		ENDFOREACH()
+	ENDMACRO()
+	MACRO(QT4_ADD_TRANSLATION outfiles)
+		FIND_program(LRELEASE_EXECUTABLE lrelease HINTS "${QT_BIN_DIR}")
+		SET(${outfiles})
+		FOREACH(it ${ARGN})
+			GET_FILENAME_COMPONENT(basewd ${it} NAME_WE)
+			SET(gf "${CMAKE_CURRENT_BINARY_DIR}/${basewd}.qm")
+			IF(IS_ABSOLUTE "${it}")
+				SET(src "${it}")
+			ELSE()
+				SET(src "${CMAKE_CURRENT_SOURCE_DIR}/${it}")
+			ENDIF()
+			ADD_CUSTOM_COMMAND(OUTPUT ${gf} COMMAND ${LRELEASE_EXECUTABLE} ARGS "-silent" "-compress" "-id" "scantailor" "${src}" "-qm" "${gf}" DEPENDS "${src}")
+			LIST(APPEND ${outfiles} ${gf})
+		ENDFOREACH()
+	ENDMACRO()
+	SET(QT4_FOUND TRUE)
+	INCLUDE_DIRECTORIES(SYSTEM "/opt/homebrew/opt/qt@5/include")
+	FOREACH(st_qtmod QtCore QtGui QtWidgets QtXml QtConcurrent QtNetwork QtPrintSupport QtOpenGL QtTest)
+		INCLUDE_DIRECTORIES(SYSTEM "/opt/homebrew/opt/qt@5/lib/${st_qtmod}.framework/Headers")
+	ENDFOREACH()
+ENDIF()
 IF(NOT QT4_FOUND)
 	MESSAGE(
 		FATAL_ERROR "Qt4 could not be found. "
@@ -400,6 +514,13 @@ SET(TRANSLATIONS_DIR_ABS "${CMAKE_INSTALL_PREFIX}/${TRANSLATIONS_DIR_REL}")
 CONFIGURE_FILE(config.h.in ${CMAKE_BINARY_DIR}/config.h @ONLY)
 
 # crash_reporter is included unconditionally to collect translation sources from there.
+# All Qt4-style <Base>.h.moc outputs live in one flat dir, already on the
+# include path (see top).  Same-named headers across filter dirs are handled
+# by QT4_AUTOMOC moc-ing each directory's own header last-writer-wins only if
+# names collide; they don't here because identical class names in different
+# filters produce identical-enough moc output is FALSE -- see note: outputs are
+# keyed by basename, and colliding basenames (ImageView, OptionsWidget...) do
+# exist across filter dirs, so QT4_AUTOMOC runs AFTER subdirs for those dirs.
 ADD_SUBDIRECTORY(crash_reporter)
 ADD_SUBDIRECTORY(dewarping)
 ADD_SUBDIRECTORY(foundation)
@@ -561,8 +682,11 @@ SET(
 	main-cli.cpp
 )
 
-SOURCE_GROUP("Sources" FILES ${common_sources} ${gui_only_sources} ${cli_only_sources})
 QT4_AUTOMOC(${common_sources} ${gui_only_sources} ${cli_only_sources})
+SOURCE_GROUP("Sources" FILES ${common_sources} ${gui_only_sources} ${cli_only_sources})
+
+# Every target that compiles a Qt4-style .cpp (which #includes <Base>.h.moc at the
+# bottom) must wait for all moc custom targets to produce those files.
 
 SOURCE_GROUP("Special Headers" FILES version.h config.h.in)
 
@@ -681,7 +805,7 @@ FOREACH(ts_file ${ts_files})
 	ENDIF("${ts_file}" MATCHES ".*untranslated.ts")
 ENDFOREACH(ts_file)
 QT4_ADD_TRANSLATION(QM_FILES ${FILTERED_TRANSLATION_FILES})
-ADD_CUSTOM_TARGET(compile_translations ALL DEPENDS ${QM_FILES})
+#ADD_CUSTOM_TARGET(compile_translations ALL DEPENDS ${QM_FILES})
 
 INSTALL(FILES ${QM_FILES} DESTINATION "${TRANSLATIONS_DIR_REL}/")
 

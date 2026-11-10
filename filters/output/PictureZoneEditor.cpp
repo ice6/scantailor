@@ -17,7 +17,6 @@
 */
 
 #include "PictureZoneEditor.h"
-#include "PictureZoneEditor.h.moc"
 #include "NonCopyable.h"
 #include "Zone.h"
 #include "ZoneSet.h"
@@ -419,3 +418,5 @@ PictureZoneEditor::MaskTransformTask::Result::operator()()
 }
 
 } // namespace output
+
+#include "PictureZoneEditor.h.moc"

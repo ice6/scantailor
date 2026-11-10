@@ -17,7 +17,6 @@
 */
 
 #include "ImageView.h"
-#include "ImageView.h.moc"
 #include "ImageTransformation.h"
 #include "ImagePresentation.h"
 
@@ -57,3 +56,5 @@ ImageView::setPreRotation(OrthogonalRotation const rotation)
 }
 
 } // namespace fix_orientation
+
+#include "ImageView.h.moc"

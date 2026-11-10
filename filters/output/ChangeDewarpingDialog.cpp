@@ -17,7 +17,7 @@
 */
 
 #include "ChangeDewarpingDialog.h"
-#include "ChangeDewarpingDialog.h.moc"
+#include <QButtonGroup>
 #include "PageSelectionAccessor.h"
 #include "QtSignalForwarder.h"
 #ifndef Q_MOC_RUN
@@ -98,3 +98,5 @@ ChangeDewarpingDialog::onSubmit()
 }
 
 } // namespace output
+
+#include "ChangeDewarpingDialog.h.moc"

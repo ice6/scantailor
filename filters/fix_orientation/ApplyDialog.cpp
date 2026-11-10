@@ -17,7 +17,6 @@
 */
 
 #include "ApplyDialog.h"
-#include "ApplyDialog.h.moc"
 #include "PageSelectionAccessor.h"
 #include <QButtonGroup>
 #include <QDebug>
@@ -92,3 +91,5 @@ ApplyDialog::onSubmit()
 }
 
 } // namespace fix_orientation
+
+#include "ApplyDialog.h.moc"

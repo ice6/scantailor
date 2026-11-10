@@ -17,7 +17,7 @@
 */
 
 #include "ImageView.h"
-#include "ImageView.h.moc"
+#include <QPainterPath>
 #include "OptionsWidget.h"
 #include "Margins.h"
 #include "Settings.h"
@@ -717,3 +717,5 @@ ImageView::invalidateThumbnails(AggregateSizeChanged const agg_size_changed)
 }
 
 } // namespace page_layout
+
+#include "ImageView.h.moc"
