@@ -6,3 +6,7 @@ CMakeFiles
 *.h.moc
 build/
 *~
+
+.DS_Store
+CMakeCache.txt
+.version.h
